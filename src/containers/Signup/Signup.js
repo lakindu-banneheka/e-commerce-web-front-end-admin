@@ -6,8 +6,9 @@ import InputText from '../../components/UI/input/InputText';
 //Icons
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { signup } from '../../actions/user.action';
 // import GoogleIcon from '@mui/icons-material/Google';
 // import FacebookIcon from '@mui/icons-material/Facebook';
 
@@ -15,14 +16,15 @@ const Signup = () => {
     const [values, setValues] = React.useState({
         firstName:'',
         lastName:'',
-        username:'',
         email:'',
-        contactNumber:'',
+        // contactNumber:'',
         // profilePicture:'',
         password: '',
+        error:'',
         showPassword: false,
       });
     const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
     
       const handleChange = (prop) => (event) => {
@@ -39,6 +41,19 @@ const Signup = () => {
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
       };
+
+      const handdleUserRegister = (e) => {
+        e.preventDefault();
+        const user = {
+            firstName:values.firstName,
+            lastName:values.lastName,
+            email:values.email,
+            password:values.password
+        }
+        dispatch(signup(user));
+      }
+
+
       if(auth.authenticate){
         return <Navigate to="/" />
     }
@@ -59,7 +74,7 @@ const Signup = () => {
                         </Typography>
                         <div style={{margin:'20px'}} >
                             <InputText 
-                                InputId='signup-firstName'
+                                InputId='firstName'
                                 lable='First Name'
                                 type='text'
                                 variant='standard'
@@ -67,7 +82,7 @@ const Signup = () => {
                                 onChange={handleChange('firstName')}
                             />
                             <InputText 
-                                InputId='signup-lastNmae'
+                                InputId='lastNmae'
                                 lable='last Name'
                                 type='text'
                                 variant='standard'
@@ -75,7 +90,7 @@ const Signup = () => {
                                 onChange={handleChange('lastName')}
                             />
                             <InputText 
-                                InputId='signup-email'
+                                InputId='email'
                                 lable='Email'
                                 type='email'
                                 variant='standard'
@@ -132,6 +147,7 @@ const Signup = () => {
                             <Button
                                 variant='contained'
                                 sx={{margin:'0 5px'}}
+                                onClick={handdleUserRegister}
                             >
                                 SignIn
                             </Button>

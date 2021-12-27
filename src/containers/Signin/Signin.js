@@ -20,7 +20,6 @@ const Signin = () => {
         error:''
     });
     const auth = useSelector(state => state.auth);
-
     const dispatch = useDispatch();
 
     const handleChange = (prop) => (event) => {
@@ -36,13 +35,12 @@ const Signin = () => {
     event.preventDefault();
     };
     const userLogin = (e) => {
-    e.preventDefault();
-    // :'laki@gmail.com' & 12345
-    const user = {
-        email:values.email,
-        password:values.password
-    }
-    dispatch(login(user));
+        e.preventDefault();
+        const user = {
+            email:values.email,
+            password:values.password
+        }
+        dispatch(login(user));
     }
     if(auth.authenticate){
         return <Navigate to="/" />
